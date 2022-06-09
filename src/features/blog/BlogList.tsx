@@ -35,7 +35,7 @@ const BlogList = () => {
 
 
     if (!blogs || blogs.length === 0) {
-        return <p>Loading</p>;
+        return <></>;
     }
 
     
