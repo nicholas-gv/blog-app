@@ -17,9 +17,11 @@ interface BlogState {
     status: 'loading' | 'fulfilled' | 'rejected';
 }
 
+const blogData = loadBlogs();
+
 const initialState: BlogState = {
-    blogs: loadBlogs().blogs,
-    activeBlogId: loadBlogs().activeBlogId || 0,
+    blogs: blogData.blogs,
+    activeBlogId: blogData.activeBlogId || 0,
     status: 'loading',
 };
 

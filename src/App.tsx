@@ -13,15 +13,13 @@ import CreateBlog from './features/blog/CreateBlog';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<BlogList/>}/>
-          <Route path="/blog" element={<Blog/>}/>
-          <Route path="/create-blog" element={<CreateBlog/>}/>
-        </Routes>
-    </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BlogList/>}/>
+        <Route path="/blog" element={<Blog/>}/>
+        <Route path="/create-blog" element={<CreateBlog/>}/>
+      </Routes>
+  </BrowserRouter>
   );
 }
 

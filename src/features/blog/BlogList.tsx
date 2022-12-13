@@ -32,7 +32,7 @@ const BlogList = () => {
             </div>
             <ul className="blog-list">
                 {blogs.length > 0 ? (
-                    blogs.map((val, i) => (
+                    [...blogs].reverse().map((val, i) => (
                         <li
                             key={i}
                             data-id={val.id}
