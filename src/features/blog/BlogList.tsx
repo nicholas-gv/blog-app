@@ -31,7 +31,7 @@ const BlogList = () => {
                 <p id="blogosphere-text">YOUR BLOGOSPHERE</p>
             </div>
             <ul className="blog-list">
-                {blogs.length > 0 ? (
+                {blogs && blogs.length > 0 ? (
                     [...blogs].reverse().map((val, i) => (
                         <li
                             key={i}
