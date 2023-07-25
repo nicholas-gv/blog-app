@@ -55,15 +55,6 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
     background-color: $medium-grey-color;
   }
 }
- 
-.column {
-  max-width: 33rem;
-  margin-top: 20px;
-  animation: fade-in 0.1s ease-in;
-  // background-color: #f1f1f1;
-  // border-radius: 7px;
-  // padding: 15px;
-}
 
 .blog-title {
   @extend .large-text;
@@ -78,6 +69,12 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
   text-decoration: underline 2px solid $green-color;
+}
+
+.column {
+  max-width: 33rem;
+  margin-top: 20px;
+  animation: fade-in 0.1s ease-in;
 }
 
 @keyframes fade-in {
@@ -159,8 +156,6 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
   margin-top: 25px;
 }
 
-// ===== popup start
-
 .shadow-main {
   position: fixed;
   left: 0;
@@ -184,10 +179,6 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
 .popup > * {
   margin: 5px;
 }
-
-// ===== popup end
-
-// ===== context menu start
 
 .shadowless-main {
   position: fixed;
@@ -220,8 +211,6 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
   margin: 5px;
 }
 
-// ===== context menu end
-
 .textarea {
   font-family: $default-font;
   min-height: 36px;
@@ -241,8 +230,6 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
   margin-bottom: 50px;
   display: inline-block;
 }
-
-// ===== info start
 
 .info-container {
   position: relative;
@@ -280,10 +267,6 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
   }
 }
 
-// ===== info end
-
-// ===== error-message start
-
 .error-message-container {
   display: flex;
   background-color: red;
@@ -297,5 +280,3 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
 .error-message {
   margin-left: 15px;
 }
-
-// ===== error-message end
