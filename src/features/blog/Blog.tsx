@@ -181,7 +181,7 @@ const Blog = () => {
                 <>
                     <h1 className="blog-title">{activeBlog?.title}</h1>
                     <p className="blog-date">{activeBlog?.date}</p>
-                    <div className="column-of-text">{parseContent()}</div>
+                    <pre className="column-of-text">{parseContent()}</pre>
                     <div className="edit-delete-container">
                         <button
                             className="primary-button"
@@ -237,11 +237,6 @@ const Blog = () => {
                         className="secondary-button"
                         onClick={() => formatText('code')}>
                         Code
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => formatText('br')}>
-                        Break Line
                     </button>
                 </ContextMenu>
             )}
