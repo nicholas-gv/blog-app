@@ -1,6 +1,10 @@
-# Blog app made in Vite
-This project was bootstrapped with [Vite](https://vitejs.dev/)
-  
+# Blog app
+bootstrapped with [Vite](https://vitejs.dev/)
+
+* Redux for managing state
+* Sass for styling
+* react-router-dom for routing
+
 ## To Run:
 
 ``` npm i ```  
