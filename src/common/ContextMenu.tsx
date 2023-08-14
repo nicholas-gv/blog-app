@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 interface ContextMenuProps {
     setShowContextMenu: Function;
@@ -7,21 +7,24 @@ interface ContextMenuProps {
 }
 
 const ContextMenu = (props: ContextMenuProps) => {
+    const contextMenuRef = useRef<HTMLDivElement>(null)
+
     const handleOutsideClick = () => {
         props.setShowContextMenu(false);
     };
 
     useEffect(() => {
-        const contextMenu = document.getElementsByClassName('context-menu')[0] as HTMLDivElement;
-        contextMenu.style.left = props.contextMenuPosition[0] + 'px';
-        contextMenu.style.top = props.contextMenuPosition[1] + 'px';
+        if (contextMenuRef.current !== null) {
+            contextMenuRef.current.style.left = props.contextMenuPosition[0] + 'px';
+            contextMenuRef.current.style.top = props.contextMenuPosition[1] + 'px';
+        }
     });
 
     return (
         <div
             className="shadowless-main"
             onClick={handleOutsideClick}>
-            <div className="context-menu">{props.children}</div>
+            <div ref={contextMenuRef} className="context-menu">{props.children}</div>
         </div>
     );
 };

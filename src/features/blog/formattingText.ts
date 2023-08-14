@@ -1,8 +1,16 @@
-export const formatText = (typeOfFormat: 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code') => {
-    const formats = {bold: 'b', italic: 'i', underline: 'ins', strikethrough: 'del', code: 'code'};
-    const textarea = document.getElementById('new-content') as HTMLFormElement;
+import { RefObject } from 'react';
 
-    if (textarea && (textarea.selectionEnd !== textarea.selectionStart)) {
+type TextAreaRef = RefObject<HTMLTextAreaElement>;
+
+
+export const formatText = (
+    typeOfFormat: 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code',
+    textareaElementRef: TextAreaRef
+) => {
+    const formats = {bold: 'b', italic: 'i', underline: 'ins', strikethrough: 'del', code: 'code'};
+    const textarea = textareaElementRef.current;
+
+    if (textarea && textarea.selectionEnd !== textarea.selectionStart) {
         const textareaValue = textarea.value;
         const newTextareaValue =
             textareaValue.substring(0, textarea.selectionStart) +
@@ -11,6 +19,6 @@ export const formatText = (typeOfFormat: 'bold' | 'italic' | 'underline' | 'stri
                 textarea.selectionEnd
             )}</${formats[typeOfFormat]}>` +
             textareaValue.substring(textarea.selectionEnd, textareaValue.length);
-        (document.getElementById('new-content') as HTMLFormElement).value = newTextareaValue;
+            textareaElementRef.current.value = newTextareaValue;
     }
 };

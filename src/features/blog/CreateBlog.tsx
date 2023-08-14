@@ -1,5 +1,5 @@
 import {blogAdd, selectBlogs, selectStatus} from './blogSlice';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import backIcon from '../../assets/angle-left-solid.svg';
@@ -10,6 +10,8 @@ const CreateBlog = () => {
     const blogs = useAppSelector(selectBlogs);
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
+    const titleRef = useRef<HTMLTextAreaElement>(null);
+    const contentRef = useRef<HTMLTextAreaElement>(null);
 
     // local state for UI only
     const [titleEmpty, setTitleEmpty] = useState(false);
@@ -40,8 +42,8 @@ const CreateBlog = () => {
 
     const handleAddSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const blogTitle = (document.getElementById('title') as HTMLInputElement).value;
-        const blogContent = (document.getElementById('content') as HTMLInputElement).value;
+        const blogTitle = titleRef.current ? titleRef.current.value : ""
+        const blogContent = contentRef.current ? contentRef.current.value : ""
 
         blogTitle.length === 0 ? setTitleEmpty(true) : setTitleEmpty(false);
         blogContent.length === 0 ? setContentEmpty(true) : setContentEmpty(false);
@@ -87,6 +89,7 @@ const CreateBlog = () => {
                     Title:
                 </label>
                 <textarea
+                    ref={titleRef}
                     id="title"
                     name="title"
                     onKeyDown={handleKeyDown}
@@ -98,6 +101,7 @@ const CreateBlog = () => {
                     Content:
                 </label>
                 <textarea
+                    ref={contentRef}
                     id="content"
                     name="content"
                     onKeyDown={handleKeyDown}

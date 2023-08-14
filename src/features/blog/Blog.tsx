@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../app/hooks';
 import {selectActiveBlog, blogDelete, blogUpdateBody, blogRename} from './blogSlice';
@@ -16,6 +16,8 @@ const Blog = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const activeBlog = useAppSelector(selectActiveBlog);
+    const newTitleRef = useRef<HTMLTextAreaElement>(null);
+    const newContentRef = useRef<HTMLTextAreaElement>(null);
 
     // local state for UI only
     const [showEditMode, setShowEditMode] = useState(false);
@@ -44,8 +46,10 @@ const Blog = () => {
     const handleUpdateSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const id = activeBlog?.id;
-        const title = (document.getElementById('new-title') as HTMLInputElement).value;
-        const content = (document.getElementById('new-content') as HTMLInputElement).value;
+
+
+        const title = newTitleRef.current ? newTitleRef.current.value : "";
+        const content = newContentRef.current ? newContentRef.current.value : "";
 
         let updateTitle = false;
         let updateContent = false;
@@ -134,6 +138,7 @@ const Blog = () => {
                     className="update-content-form"
                     onSubmit={handleUpdateSubmit}>
                     <textarea
+                        ref={newTitleRef}
                         id="new-title"
                         name="new-title"
                         className="edit-title-textarea textarea"
@@ -151,6 +156,7 @@ const Blog = () => {
                     </div>
 
                     <textarea
+                        ref={newContentRef}
                         id="new-content"
                         name="new-content"
                         className="edit-content-textarea textarea"
@@ -215,27 +221,27 @@ const Blog = () => {
                     setShowContextMenu={setShowContextMenu}>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('bold')}>
+                        onClick={() => formatText('bold', newContentRef)}>
                         Bold
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('italic')}>
+                        onClick={() => formatText('italic', newContentRef)}>
                         Italic
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('underline')}>
+                        onClick={() => formatText('underline', newContentRef)}>
                         Underline
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('strikethrough')}>
+                        onClick={() => formatText('strikethrough', newContentRef)}>
                         Strikethrough
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('code')}>
+                        onClick={() => formatText('code', newContentRef)}>
                         Code
                     </button>
                 </ContextMenu>
