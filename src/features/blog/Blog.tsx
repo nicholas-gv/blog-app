@@ -16,8 +16,6 @@ const Blog = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const activeBlog = useAppSelector(selectActiveBlog);
-    const newTitleRef = useRef<HTMLTextAreaElement>(null);
-    const newContentRef = useRef<HTMLTextAreaElement>(null);
 
     // local state for UI only
     const [showEditMode, setShowEditMode] = useState(false);
@@ -26,6 +24,8 @@ const Blog = () => {
     const [contextMenuPosition, setContextMenuPosition] = useState([0, 0]);
     const [titleEmpty, setTitleEmpty] = useState(false);
     const [contentEmpty, setContentEmpty] = useState(false);
+    const newTitleRef = useRef<HTMLTextAreaElement>(null);
+    const newContentRef = useRef<HTMLTextAreaElement>(null);
 
     const handleDeleteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();

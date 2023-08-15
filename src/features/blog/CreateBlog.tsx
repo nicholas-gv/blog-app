@@ -4,6 +4,9 @@ import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import backIcon from '../../assets/angle-left-solid.svg';
 import ErrorMessage from '../../common/ErrorMessage';
+import ContextMenu from '../../common/ContextMenu';
+import {formatText} from './formattingText';
+import infoIcon from '../../assets/info-icon-green.svg';
 
 const CreateBlog = () => {
     const navigate = useNavigate();
@@ -12,6 +15,8 @@ const CreateBlog = () => {
     const status = useAppSelector(selectStatus);
     const titleRef = useRef<HTMLTextAreaElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
+    const [showContextMenu, setShowContextMenu] = useState(false);
+    const [contextMenuPosition, setContextMenuPosition] = useState([0, 0]);
 
     // local state for UI only
     const [titleEmpty, setTitleEmpty] = useState(false);
@@ -42,8 +47,8 @@ const CreateBlog = () => {
 
     const handleAddSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const blogTitle = titleRef.current ? titleRef.current.value : ""
-        const blogContent = contentRef.current ? contentRef.current.value : ""
+        const blogTitle = titleRef.current ? titleRef.current.value : '';
+        const blogContent = contentRef.current ? contentRef.current.value : '';
 
         blogTitle.length === 0 ? setTitleEmpty(true) : setTitleEmpty(false);
         blogContent.length === 0 ? setContentEmpty(true) : setContentEmpty(false);
@@ -64,6 +69,12 @@ const CreateBlog = () => {
         target.style.height = `${target.scrollHeight}px`;
         // In case you have a limitation
         // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
+    };
+
+    const handleContextMenu = (event: React.MouseEvent<HTMLTextAreaElement>) => {
+        event.preventDefault();
+        setContextMenuPosition([event.clientX, event.clientY]);
+        setShowContextMenu(true);
     };
 
     if (status === 'loading') {
@@ -95,9 +106,16 @@ const CreateBlog = () => {
                     onKeyDown={handleKeyDown}
                     rows={1}
                     className="edit-title-textarea textarea"></textarea>
+                <div className="info-container margin-top">
+                    <img
+                        src={infoIcon}
+                        width="23"
+                        className="info-icon"></img>
+                    <p className="hidden-hint">Select text and right click to format text</p>
+                </div>
                 <label
                     htmlFor="content"
-                    className="large-text create-label">
+                    className="large-text">
                     Content:
                 </label>
                 <textarea
@@ -106,7 +124,8 @@ const CreateBlog = () => {
                     name="content"
                     onKeyDown={handleKeyDown}
                     rows={5}
-                    className="edit-content-textarea textarea"></textarea>
+                    className="edit-content-textarea textarea"
+                    onContextMenu={handleContextMenu}></textarea>
                 <div>
                     {titleEmpty && <ErrorMessage>Title is empty</ErrorMessage>}
                     {contentEmpty && <ErrorMessage>Content is empty</ErrorMessage>}
@@ -119,6 +138,37 @@ const CreateBlog = () => {
                     </button>
                 </div>
             </form>
+            {showContextMenu && (
+                <ContextMenu
+                    contextMenuPosition={contextMenuPosition}
+                    setShowContextMenu={setShowContextMenu}>
+                    <button
+                        className="secondary-button"
+                        onClick={() => formatText('bold', contentRef)}>
+                        Bold
+                    </button>
+                    <button
+                        className="secondary-button"
+                        onClick={() => formatText('italic', contentRef)}>
+                        Italic
+                    </button>
+                    <button
+                        className="secondary-button"
+                        onClick={() => formatText('underline', contentRef)}>
+                        Underline
+                    </button>
+                    <button
+                        className="secondary-button"
+                        onClick={() => formatText('strikethrough', contentRef)}>
+                        Strikethrough
+                    </button>
+                    <button
+                        className="secondary-button"
+                        onClick={() => formatText('code', contentRef)}>
+                        Code
+                    </button>
+                </ContextMenu>
+            )}
         </div>
     );
 };
