@@ -111,7 +111,7 @@ const CreateBlog = () => {
                         src={infoIcon}
                         width="23"
                         className="info-icon"></img>
-                    <p className="hidden-hint">Select text and right click to format text</p>
+                    <p className="hidden-hint">Select text and right click it to format</p>
                 </div>
                 <label
                     htmlFor="content"
