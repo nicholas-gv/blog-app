@@ -13,14 +13,14 @@ const CreateBlog = () => {
     const blogs = useAppSelector(selectBlogs);
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
-    const titleRef = useRef<HTMLTextAreaElement>(null);
-    const contentRef = useRef<HTMLTextAreaElement>(null);
-    const [showContextMenu, setShowContextMenu] = useState(false);
-    const [contextMenuPosition, setContextMenuPosition] = useState([0, 0]);
 
     // local state for UI only
     const [titleEmpty, setTitleEmpty] = useState(false);
     const [contentEmpty, setContentEmpty] = useState(false);
+    const titleRef = useRef<HTMLTextAreaElement>(null);
+    const contentRef = useRef<HTMLTextAreaElement>(null);
+    const [showContextMenu, setShowContextMenu] = useState(false);
+    const [contextMenuPosition, setContextMenuPosition] = useState([0, 0]);
 
     useEffect(() => {
         if (status === 'loading') {
@@ -63,12 +63,11 @@ const CreateBlog = () => {
         }
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        const target = event.target as HTMLTextAreaElement;
-        target.style.height = 'inherit';
-        target.style.height = `${target.scrollHeight}px`;
-        // In case you have a limitation
-        // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
+    const handleTextareaChange = (ref: React.RefObject<HTMLTextAreaElement>) => {
+        if (ref.current) {
+            ref.current.style.height = 'auto';
+            ref.current.style.height = `${ref.current.scrollHeight}px`;
+        }
     };
 
     const handleContextMenu = (event: React.MouseEvent<HTMLTextAreaElement>) => {
@@ -103,7 +102,7 @@ const CreateBlog = () => {
                     ref={titleRef}
                     id="title"
                     name="title"
-                    onKeyDown={handleKeyDown}
+                    onChange={() => handleTextareaChange(titleRef)}
                     rows={1}
                     className="edit-title-textarea textarea"></textarea>
                 <div className="info-container margin-top">
@@ -122,7 +121,7 @@ const CreateBlog = () => {
                     ref={contentRef}
                     id="content"
                     name="content"
-                    onKeyDown={handleKeyDown}
+                    onChange={() => handleTextareaChange(contentRef)}
                     rows={5}
                     className="edit-content-textarea textarea"
                     onContextMenu={handleContextMenu}></textarea>

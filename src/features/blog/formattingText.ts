@@ -1,8 +1,9 @@
-import { RefObject } from 'react';
+import {RefObject} from 'react';
 
 type TextAreaRef = RefObject<HTMLTextAreaElement>;
 
-
+// when a user selects some text and clicks on a formatting option, 
+// this function adds the appropriate html tag to that text.
 export const formatText = (
     typeOfFormat: 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code',
     textareaElementRef: TextAreaRef
@@ -19,6 +20,6 @@ export const formatText = (
                 textarea.selectionEnd
             )}</${formats[typeOfFormat]}>` +
             textareaValue.substring(textarea.selectionEnd, textareaValue.length);
-            textareaElementRef.current.value = newTextareaValue;
+        textareaElementRef.current.value = newTextareaValue;
     }
 };
