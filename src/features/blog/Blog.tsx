@@ -37,10 +37,10 @@ const Blog = () => {
         navigate('/');
     };
 
-    const handleTextareaChange = () => {
-        if (newTitleRef.current) {
-            newTitleRef.current.style.height = 'inherit';
-            newTitleRef.current.style.height = `${newTitleRef.current.scrollHeight}px`;
+    const handleTextareaChange = (ref: React.RefObject<HTMLTextAreaElement>) => {
+        if (ref.current) {
+            ref.current.style.height = 'auto';
+            ref.current.style.height = `${ref.current.scrollHeight}px`;
         }
     };
 
@@ -143,7 +143,7 @@ const Blog = () => {
                         name="new-title"
                         className="edit-title-textarea textarea"
                         rows={activeBlog ? activeBlog?.title.length / 20 : 1}
-                        onChange={handleTextareaChange}
+                        onChange={() => handleTextareaChange(newTitleRef)}
                         defaultValue={activeBlog?.title}></textarea>
                     <p className="blog-date">{activeBlog?.date}</p>
 
@@ -161,7 +161,7 @@ const Blog = () => {
                         name="new-content"
                         className="edit-content-textarea textarea"
                         rows={activeBlog ? activeBlog?.content.length / 50 : 25}
-                        onChange={handleTextareaChange}
+                        onChange={() => handleTextareaChange(newContentRef)}
                         defaultValue={activeBlog?.content}
                         onContextMenu={handleContextMenu}></textarea>
 
