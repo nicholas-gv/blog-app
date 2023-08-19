@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import blogReducer from '../features/blog/blogSlice'
-import { loadBlogs, saveBlogs } from '../common/localStorage'
+import { saveBlogs } from '../common/localStorage'
 
 
 export const store = configureStore({

@@ -37,10 +37,11 @@ const Blog = () => {
         navigate('/');
     };
 
-    const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const target = event.target as HTMLTextAreaElement;
-        target.style.height = 'inherit';
-        target.style.height = `${target.scrollHeight}px`;
+    const handleTextareaChange = () => {
+        if (newTitleRef.current) {
+            newTitleRef.current.style.height = 'inherit';
+            newTitleRef.current.style.height = `${newTitleRef.current.scrollHeight}px`;
+        }
     };
 
     const handleUpdateSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -112,7 +113,6 @@ const Blog = () => {
                         domNode.tagName !== 'i' &&
                         domNode.tagName !== 'ins' &&
                         domNode.tagName !== 'code' &&
-                        domNode.tagName !== 'br' &&
                         domNode.tagName !== 'del'
                     ) {
                         return <>{domToReact(domNode.children, options)}</>;
