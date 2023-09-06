@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../app/hooks';
 import {selectActiveBlog, blogDelete, blogUpdateBody, blogRename} from './blogSlice';
@@ -26,6 +26,8 @@ const Blog = () => {
     const [contentEmpty, setContentEmpty] = useState(false);
     const newTitleRef = useRef<HTMLTextAreaElement>(null);
     const newContentRef = useRef<HTMLTextAreaElement>(null);
+    const [textareaHeightTitle, setTextareaHeightTitle] = useState('auto'); 
+    const [textareaHeightContent, setTextareaHeightContent] = useState('auto'); 
 
     const handleDeleteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -43,6 +45,11 @@ const Blog = () => {
             ref.current.style.height = `${ref.current.scrollHeight}px`;
         }
     };
+
+    useEffect(() => {
+        setTextareaHeightTitle(newTitleRef.current ? `${newTitleRef.current.scrollHeight}px` : "auto")
+        setTextareaHeightContent(newContentRef.current ? `${newContentRef.current.scrollHeight}px` : "auto")
+    }, [showEditMode])
 
     const handleUpdateSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -142,7 +149,7 @@ const Blog = () => {
                         id="new-title"
                         name="new-title"
                         className="edit-title-textarea textarea"
-                        rows={activeBlog ? activeBlog?.title.length / 20 : 1}
+                        style={{height: textareaHeightTitle}}
                         onChange={() => handleTextareaChange(newTitleRef)}
                         defaultValue={activeBlog?.title}></textarea>
                     <p className="blog-date">{activeBlog?.date}</p>
@@ -160,7 +167,7 @@ const Blog = () => {
                         id="new-content"
                         name="new-content"
                         className="edit-content-textarea textarea"
-                        rows={activeBlog ? activeBlog?.content.length / 50 : 25}
+                        style={{height: textareaHeightContent}}
                         onChange={() => handleTextareaChange(newContentRef)}
                         defaultValue={activeBlog?.content}
                         onContextMenu={handleContextMenu}></textarea>
