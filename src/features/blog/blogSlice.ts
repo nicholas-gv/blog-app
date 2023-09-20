@@ -2,6 +2,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {loadBlogs} from '../../common/localStorage';
+import axios, {AxiosError} from 'axios';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface Blog {
     id: number;
@@ -25,9 +27,23 @@ const initialState: BlogState = {
     status: 'loading',
 };
 
-export const fetchBlogs = createAsyncThunk('blogs/fetchBlogs', async () => {
-    const response = await fetch('db.json').then((data) => data.json());
-    return response.blogs;
+export const fetchBlogs = createAsyncThunk('blogs/fetchBlogs', async (_, {rejectWithValue}) => {
+    try {
+        const response = await axios.get('db.json');
+        return response.data.blogs;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError<SerializedError>;
+            if (axiosError.response) {
+                // Handle HTTP error response (e.g., status code is not in 2xx range)
+                return rejectWithValue(axiosError.response.data);
+            } else if (axiosError.request) {
+                // Handle network error (e.g., no response received)
+                return rejectWithValue({message: 'Network error. Please try again later.'});
+            }
+        }
+        return rejectWithValue({message: 'An error occurred. Please try again later.'});
+    }
 });
 
 export const blogSlice = createSlice({
