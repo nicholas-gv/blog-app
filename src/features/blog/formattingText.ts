@@ -3,7 +3,7 @@ import {RefObject} from 'react';
 type TextAreaRef = RefObject<HTMLTextAreaElement>;
 
 // when a user selects some text and clicks on a formatting option, 
-// this function adds the appropriate html tag to that text.
+// this function wraps that text in an appropriate html tag.
 export const formatText = (
     typeOfFormat: 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code',
     textareaElementRef: TextAreaRef
