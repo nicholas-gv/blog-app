@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../app/hooks';
 import {selectActiveBlog, blogDelete, blogUpdateBody, blogRename} from './blogSlice';
-import {formatText} from './formattingText';
+import {wrapTextInHTMLTag} from './formattingText';
 import backIcon from '../../assets/angle-left-solid.svg';
 import {useAppDispatch} from '../../app/hooks';
 import Popup from '../../common/Popup';
@@ -228,27 +228,27 @@ const Blog = () => {
                     setShowContextMenu={setShowContextMenu}>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('bold', newContentRef)}>
+                        onClick={() => wrapTextInHTMLTag('bold', newContentRef)}>
                         Bold
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('italic', newContentRef)}>
+                        onClick={() => wrapTextInHTMLTag('italic', newContentRef)}>
                         Italic
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('underline', newContentRef)}>
+                        onClick={() => wrapTextInHTMLTag('underline', newContentRef)}>
                         Underline
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('strikethrough', newContentRef)}>
+                        onClick={() => wrapTextInHTMLTag('strikethrough', newContentRef)}>
                         Strikethrough
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('code', newContentRef)}>
+                        onClick={() => wrapTextInHTMLTag('code', newContentRef)}>
                         Code
                     </button>
                 </ContextMenu>

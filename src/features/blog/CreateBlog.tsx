@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import backIcon from '../../assets/angle-left-solid.svg';
 import ErrorMessage from '../../common/ErrorMessage';
 import ContextMenu from '../../common/ContextMenu';
-import {formatText} from './formattingText';
+import {wrapTextInHTMLTag} from './formattingText';
 import infoIcon from '../../assets/info-icon-green.svg';
 
 const CreateBlog = () => {
@@ -143,27 +143,27 @@ const CreateBlog = () => {
                     setShowContextMenu={setShowContextMenu}>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('bold', contentRef)}>
+                        onClick={() => wrapTextInHTMLTag('bold', contentRef)}>
                         Bold
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('italic', contentRef)}>
+                        onClick={() => wrapTextInHTMLTag('italic', contentRef)}>
                         Italic
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('underline', contentRef)}>
+                        onClick={() => wrapTextInHTMLTag('underline', contentRef)}>
                         Underline
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('strikethrough', contentRef)}>
+                        onClick={() => wrapTextInHTMLTag('strikethrough', contentRef)}>
                         Strikethrough
                     </button>
                     <button
                         className="secondary-button"
-                        onClick={() => formatText('code', contentRef)}>
+                        onClick={() => wrapTextInHTMLTag('code', contentRef)}>
                         Code
                     </button>
                 </ContextMenu>
