@@ -1,6 +1,4 @@
-import {RefObject} from 'react';
-
-type TextAreaRef = RefObject<HTMLTextAreaElement>;
+import { TextAreaRef } from "../../types/types";
 
 // when a user selects some text and clicks on a formatting option, 
 // this function wraps that text in an appropriate html tag.

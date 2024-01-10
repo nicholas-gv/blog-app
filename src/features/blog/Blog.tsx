@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../app/hooks';
 import {selectActiveBlog, blogDelete, blogUpdateBody, blogRename} from './blogSlice';
-import {wrapTextInHTMLTag} from './formattingText';
+import Formatter from '../../common/Formatter';
 import backIcon from '../../assets/angle-left-solid.svg';
 import {useAppDispatch} from '../../app/hooks';
 import Popup from '../../common/Popup';
@@ -226,31 +226,7 @@ const Blog = () => {
                 <ContextMenu
                     contextMenuPosition={contextMenuPosition}
                     setShowContextMenu={setShowContextMenu}>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('bold', newContentRef)}>
-                        Bold
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('italic', newContentRef)}>
-                        Italic
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('underline', newContentRef)}>
-                        Underline
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('strikethrough', newContentRef)}>
-                        Strikethrough
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('code', newContentRef)}>
-                        Code
-                    </button>
+                    <Formatter textareaRef={newContentRef}/>
                 </ContextMenu>
             )}
         </div>

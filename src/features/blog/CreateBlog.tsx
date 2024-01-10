@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import backIcon from '../../assets/angle-left-solid.svg';
 import ErrorMessage from '../../common/ErrorMessage';
 import ContextMenu from '../../common/ContextMenu';
-import {wrapTextInHTMLTag} from './formattingText';
+import Formatter from '../../common/Formatter';
 import infoIcon from '../../assets/info-icon-green.svg';
 
 const CreateBlog = () => {
@@ -141,31 +141,7 @@ const CreateBlog = () => {
                 <ContextMenu
                     contextMenuPosition={contextMenuPosition}
                     setShowContextMenu={setShowContextMenu}>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('bold', contentRef)}>
-                        Bold
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('italic', contentRef)}>
-                        Italic
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('underline', contentRef)}>
-                        Underline
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('strikethrough', contentRef)}>
-                        Strikethrough
-                    </button>
-                    <button
-                        className="secondary-button"
-                        onClick={() => wrapTextInHTMLTag('code', contentRef)}>
-                        Code
-                    </button>
+                    <Formatter textareaRef={contentRef}/>
                 </ContextMenu>
             )}
         </div>
