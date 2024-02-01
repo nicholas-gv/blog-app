@@ -1,5 +1,5 @@
-import {wrapTextInHTMLTag} from '../../features/blog/formattingText';
-import {TextAreaRef} from '../../types/types';
+import {wrapTextInHTMLTag} from '../formattingText';
+import {TextAreaRef} from '../../../types/types';
 import {render, screen} from '@testing-library/react';
 import {act} from 'react-dom/test-utils';
 
