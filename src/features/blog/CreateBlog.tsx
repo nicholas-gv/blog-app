@@ -19,8 +19,6 @@ const CreateBlog = () => {
     const [contentEmpty, setContentEmpty] = useState(false);
     const titleRef = useRef<HTMLTextAreaElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
-    const [showContextMenu, setShowContextMenu] = useState(false);
-    const [contextMenuPosition, setContextMenuPosition] = useState([0, 0]);
 
     useEffect(() => {
         if (status === 'loading') {
@@ -70,12 +68,6 @@ const CreateBlog = () => {
         }
     };
 
-    const handleContextMenu = (event: React.MouseEvent<HTMLTextAreaElement>) => {
-        event.preventDefault();
-        setContextMenuPosition([event.clientX, event.clientY]);
-        setShowContextMenu(true);
-    };
-
     if (status === 'loading') {
         return <></>;
     }
@@ -104,7 +96,7 @@ const CreateBlog = () => {
                     name="title"
                     onChange={() => handleTextareaChange(titleRef)}
                     rows={1}
-                    className="edit-title-textarea textarea"></textarea>
+                    className="edit-title-textarea textarea"/>
                 <div className="info-container margin-top">
                     <img
                         src={infoIcon}
@@ -123,8 +115,10 @@ const CreateBlog = () => {
                     name="content"
                     onChange={() => handleTextareaChange(contentRef)}
                     rows={5}
-                    className="edit-content-textarea textarea"
-                    onContextMenu={handleContextMenu}></textarea>
+                    className="edit-content-textarea textarea"/>
+                    <ContextMenu targetRef={contentRef}>
+                        <Formatter textareaRef={contentRef}/>
+                    </ContextMenu>
                 <div>
                     {titleEmpty && <ErrorMessage>Title is empty</ErrorMessage>}
                     {contentEmpty && <ErrorMessage>Content is empty</ErrorMessage>}
@@ -137,13 +131,6 @@ const CreateBlog = () => {
                     </button>
                 </div>
             </form>
-            {showContextMenu && (
-                <ContextMenu
-                    contextMenuPosition={contextMenuPosition}
-                    setShowContextMenu={setShowContextMenu}>
-                    <Formatter textareaRef={contentRef}/>
-                </ContextMenu>
-            )}
         </div>
     );
 };

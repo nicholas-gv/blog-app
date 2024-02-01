@@ -1,31 +1,55 @@
-import React, {useEffect, useRef} from 'react';
+import { useState, useEffect, ReactNode, useRef } from "react";
 
-interface ContextMenuProps {
-    setShowContextMenu: Function;
-    contextMenuPosition: Array<number>;
-    children?: React.ReactNode;
+interface ContextMenuProps<T extends HTMLElement> {
+    targetRef: React.RefObject<T> | null;
+    children: ReactNode
 }
 
-const ContextMenu = (props: ContextMenuProps) => {
-    const contextMenuRef = useRef<HTMLDivElement>(null)
-
-    const handleOutsideClick = () => {
-        props.setShowContextMenu(false);
-    };
+const ContextMenu = <T extends HTMLElement>(props: ContextMenuProps<T>) => {
+    const [showContextMenu, setShowContextMenu] = useState(false);
+    const [posX, setPosX] = useState(0)
+    const [posY, setPosY] = useState(0)
 
     useEffect(() => {
-        if (contextMenuRef.current !== null) {
-            contextMenuRef.current.style.left = props.contextMenuPosition[0] + 'px';
-            contextMenuRef.current.style.top = props.contextMenuPosition[1] + 'px';
+        if (props.targetRef?.current) {
+            props.targetRef.current.addEventListener("contextmenu", handleClick)
         }
-    });
+
+        // Cleanup
+        return () => {
+            if (props.targetRef?.current) {
+                props.targetRef.current.removeEventListener('contextmenu', handleClick);
+            }
+        };
+    }, [props.targetRef]);
+
+    const handleClick = (e: MouseEvent) => {
+        e.preventDefault()
+        setShowContextMenu(true);
+        setPosX(e.pageX);
+        setPosY(e.pageY);
+    }
+
+    const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        setShowContextMenu(false);
+    };
 
     return (
-        <div
-            className="shadowless-main"
-            onClick={handleOutsideClick}>
-            <div ref={contextMenuRef} className="context-menu">{props.children}</div>
-        </div>
+        <>
+        {showContextMenu && 
+            <div
+                className="shadowless-main"
+                onClick={handleOutsideClick}
+                onContextMenu={handleOutsideClick}>
+                <div 
+                    style={{top: `${posY+10}px`, left: `${posX}px`}}
+                    className="context-menu">
+                    {props.children}
+                </div>
+            </div>
+        }
+        </>
     );
 };
 

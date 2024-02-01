@@ -20,8 +20,6 @@ const Blog = () => {
     // local state for UI only
     const [showEditMode, setShowEditMode] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    const [showContextMenu, setShowContextMenu] = useState(false);
-    const [contextMenuPosition, setContextMenuPosition] = useState([0, 0]);
     const [titleEmpty, setTitleEmpty] = useState(false);
     const [contentEmpty, setContentEmpty] = useState(false);
     const newTitleRef = useRef<HTMLTextAreaElement>(null);
@@ -100,12 +98,6 @@ const Blog = () => {
         setTitleEmpty(false);
     };
 
-    const handleContextMenu = (event: React.MouseEvent<HTMLTextAreaElement>) => {
-        event.preventDefault();
-        setContextMenuPosition([event.clientX, event.clientY]);
-        setShowContextMenu(true);
-    };
-
     const parseContent = () => {
         // get HTML markup and parse only the parts that include certain tags
         // but unwanted tags that have text as children will be rendered as normal text
@@ -169,8 +161,10 @@ const Blog = () => {
                         className="edit-content-textarea textarea"
                         style={{height: textareaHeightContent}}
                         onChange={() => handleTextareaChange(newContentRef)}
-                        defaultValue={activeBlog?.content}
-                        onContextMenu={handleContextMenu}></textarea>
+                        defaultValue={activeBlog?.content}></textarea>
+                        <ContextMenu targetRef={newContentRef}>
+                            <Formatter textareaRef={newContentRef}/>
+                        </ContextMenu>
 
                     <div>
                         {titleEmpty && <ErrorMessage>Title is empty</ErrorMessage>}
@@ -222,13 +216,6 @@ const Blog = () => {
                 </Popup>
             )}
 
-            {showContextMenu && (
-                <ContextMenu
-                    contextMenuPosition={contextMenuPosition}
-                    setShowContextMenu={setShowContextMenu}>
-                    <Formatter textareaRef={newContentRef}/>
-                </ContextMenu>
-            )}
         </div>
     );
 };
