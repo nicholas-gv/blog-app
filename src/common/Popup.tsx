@@ -19,7 +19,7 @@ const Popup = <T extends HTMLElement>(props: PopupProps<T>) => {
                 props.targetRef.current.removeEventListener('click', handleClick);
             }
         };
-    }, [props.targetRef]);
+    }, [props]);
 
     const handleClick = (e: MouseEvent) => {
         e.preventDefault()

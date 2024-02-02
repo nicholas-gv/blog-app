@@ -11,6 +11,7 @@ import parse from 'html-react-parser';
 import {HTMLReactParserOptions, Element, domToReact} from 'html-react-parser';
 import ErrorMessage from '../../common/ErrorMessage';
 import infoIcon from '../../assets/info-icon-green.svg';
+import { parseHTML } from './parseHTML';
 
 const Blog = () => {
     const navigate = useNavigate();
@@ -98,27 +99,11 @@ const Blog = () => {
         setTitleEmpty(false);
     };
 
+    // get HTML markup and parse only the parts that include certain tags
+    // unwanted tags will be rendered as normal text
     const parseContent = () => {
-        // get HTML markup and parse only the parts that include certain tags
-        // but unwanted tags that have text as children will be rendered as normal text
-
         if (activeBlog?.content) {
-            const options: HTMLReactParserOptions = {
-                replace: (domNode) => {
-                    if (
-                        domNode instanceof Element &&
-                        domNode.attribs &&
-                        domNode.tagName !== 'b' &&
-                        domNode.tagName !== 'i' &&
-                        domNode.tagName !== 'ins' &&
-                        domNode.tagName !== 'code' &&
-                        domNode.tagName !== 'del'
-                    ) {
-                        return <>{domToReact(domNode.children, options)}</>;
-                    }
-                },
-            };
-            return parse(activeBlog?.content, options);
+            return parseHTML(activeBlog.content)
         }
     };
 
@@ -197,6 +182,7 @@ const Blog = () => {
                         </button>
                         <button
                             ref={deleteBlogRef}
+                            onClick={()=>console.log(deleteBlogRef)}
                             className="delete-button">
                             Delete
                         </button>
