@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-interface PopupProps {
-    setShowPopup: Function;
+interface PopupProps<T extends HTMLElement> {
+    targetRef: React.RefObject<T>;
     children?: React.ReactNode;
 }
 
-const Popup = (props: PopupProps) => {
+const Popup = <T extends HTMLElement>(props: PopupProps<T>) => {
+    const [showPopup, setShowPopup] = useState(false)
+
+    useEffect(() => {
+        if (props.targetRef?.current) {
+            props.targetRef.current.addEventListener("click", handleClick)
+        }
+
+        // Cleanup
+        return () => {
+            if (props.targetRef?.current) {
+                props.targetRef.current.removeEventListener('click', handleClick);
+            }
+        };
+    }, [props.targetRef]);
+
+    const handleClick = (e: MouseEvent) => {
+        e.preventDefault()
+        setShowPopup(true);
+    }
+
     const handleOutsideClick = () => {
-        props.setShowPopup(false);
+        setShowPopup(false)
     };
 
     return (
-        <div
-            className="shadow-main"
-            onClick={handleOutsideClick}>
-            <div className="popup">{props.children}</div>
-        </div>
+        <>
+            {showPopup && 
+                <div
+                    className="shadow-main"
+                    onClick={handleOutsideClick}>
+                    <div className="popup">{props.children}</div>
+                </div>
+            }
+        </>
     );
 };
 

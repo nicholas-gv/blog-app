@@ -19,14 +19,14 @@ const Blog = () => {
 
     // local state for UI only
     const [showEditMode, setShowEditMode] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
     const [titleEmpty, setTitleEmpty] = useState(false);
     const [contentEmpty, setContentEmpty] = useState(false);
-    const newTitleRef = useRef<HTMLTextAreaElement>(null);
-    const newContentRef = useRef<HTMLTextAreaElement>(null);
     const [textareaHeightTitle, setTextareaHeightTitle] = useState('auto'); 
     const [textareaHeightContent, setTextareaHeightContent] = useState('auto'); 
-
+    const newTitleRef = useRef<HTMLTextAreaElement>(null);
+    const newContentRef = useRef<HTMLTextAreaElement>(null);
+    const deleteBlogRef = useRef<HTMLButtonElement>(null);
+    
     const handleDeleteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         const id = activeBlog?.id;
@@ -196,26 +196,22 @@ const Blog = () => {
                             Edit
                         </button>
                         <button
-                            className="delete-button"
-                            onClick={() => setShowPopup(true)}>
+                            ref={deleteBlogRef}
+                            className="delete-button">
                             Delete
                         </button>
                     </div>
                 </>
             )}
-
-            {showPopup && (
-                <Popup setShowPopup={setShowPopup}>
-                    <p>Are you sure you want to delete this blog?</p>
-                    <button
-                        className="primary-button"
-                        onClick={handleDeleteButtonClick}>
-                        Yes
-                    </button>
-                    <button className="secondary-button">No</button>
-                </Popup>
-            )}
-
+            <Popup targetRef={deleteBlogRef}>
+                <p>Are you sure you want to delete this blog?</p>
+                <button
+                    className="primary-button"
+                    onClick={handleDeleteButtonClick}>
+                    Yes
+                </button>
+                <button className="secondary-button">No</button>
+            </Popup>
         </div>
     );
 };
