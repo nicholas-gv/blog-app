@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../app/hooks';
 import {selectActiveBlog, blogDelete, blogUpdateBody, blogRename} from './blogSlice';
@@ -7,11 +7,9 @@ import backIcon from '../../assets/angle-left-solid.svg';
 import {useAppDispatch} from '../../app/hooks';
 import Popup from '../../common/Popup';
 import ContextMenu from '../../common/ContextMenu';
-import parse from 'html-react-parser';
-import {HTMLReactParserOptions, Element, domToReact} from 'html-react-parser';
 import ErrorMessage from '../../common/ErrorMessage';
 import infoIcon from '../../assets/info-icon-green.svg';
-import { parseHTML } from './parseHTML';
+import {parseHTML} from './parseHTML';
 
 const Blog = () => {
     const navigate = useNavigate();
@@ -21,13 +19,13 @@ const Blog = () => {
     // local state for UI only
     const [showEditMode, setShowEditMode] = useState(false);
     const [titleEmpty, setTitleEmpty] = useState(false);
-    const [contentEmpty, setContentEmpty] = useState(false);
-    const [textareaHeightTitle, setTextareaHeightTitle] = useState('auto'); 
-    const [textareaHeightContent, setTextareaHeightContent] = useState('auto'); 
+    const [bodyEmpty, SetBodyEmpty] = useState(false);
+    const [textareaHeightTitle, setTextareaHeightTitle] = useState('auto');
+    const [textareaHeightBody, setTextareaHeightBody] = useState('auto');
     const newTitleRef = useRef<HTMLTextAreaElement>(null);
-    const newContentRef = useRef<HTMLTextAreaElement>(null);
+    const newBodyRef = useRef<HTMLTextAreaElement>(null);
     const deleteBlogRef = useRef<HTMLButtonElement>(null);
-    
+
     const handleDeleteButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         const id = activeBlog?.id;
@@ -46,20 +44,19 @@ const Blog = () => {
     };
 
     useEffect(() => {
-        setTextareaHeightTitle(newTitleRef.current ? `${newTitleRef.current.scrollHeight}px` : "auto")
-        setTextareaHeightContent(newContentRef.current ? `${newContentRef.current.scrollHeight}px` : "auto")
-    }, [showEditMode])
+        setTextareaHeightTitle(newTitleRef.current ? `${newTitleRef.current.scrollHeight}px` : 'auto');
+        setTextareaHeightBody(newBodyRef.current ? `${newBodyRef.current.scrollHeight}px` : 'auto');
+    }, [showEditMode]);
 
     const handleUpdateSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const id = activeBlog?.id;
 
-
-        const title = newTitleRef.current ? newTitleRef.current.value : "";
-        const content = newContentRef.current ? newContentRef.current.value : "";
+        const title = newTitleRef.current ? newTitleRef.current.value : '';
+        const body = newBodyRef.current ? newBodyRef.current.value : '';
 
         let updateTitle = false;
-        let updateContent = false;
+        let updateBody = false;
         let isEmpty = false;
 
         if (title !== activeBlog?.title) {
@@ -72,13 +69,13 @@ const Blog = () => {
             }
         }
 
-        if (content !== activeBlog?.content) {
-            if (content.length !== 0) {
-                setContentEmpty(false);
-                updateContent = true;
+        if (body !== activeBlog?.body) {
+            if (body.length !== 0) {
+                SetBodyEmpty(false);
+                updateBody = true;
             } else {
                 isEmpty = true;
-                setContentEmpty(true);
+                SetBodyEmpty(true);
             }
         }
 
@@ -86,8 +83,8 @@ const Blog = () => {
             if (updateTitle) {
                 dispatch(blogRename({id, title}));
             }
-            if (updateContent) {
-                dispatch(blogUpdateBody({id, content}));
+            if (updateBody) {
+                dispatch(blogUpdateBody({id, body}));
             }
             setShowEditMode(false);
         }
@@ -95,15 +92,15 @@ const Blog = () => {
 
     const handleCancelEditButtonClick = () => {
         setShowEditMode(false);
-        setContentEmpty(false);
+        SetBodyEmpty(false);
         setTitleEmpty(false);
     };
 
     // get HTML markup and parse only the parts that include certain tags
     // unwanted tags will be rendered as normal text
-    const parseContent = () => {
-        if (activeBlog?.content) {
-            return parseHTML(activeBlog.content)
+    const parseBlogBody = () => {
+        if (activeBlog?.body) {
+            return parseHTML(activeBlog.body);
         }
     };
 
@@ -119,7 +116,7 @@ const Blog = () => {
 
             {showEditMode ? (
                 <form
-                    className="update-content-form"
+                    className="update-body-form"
                     onSubmit={handleUpdateSubmit}>
                     <textarea
                         ref={newTitleRef}
@@ -140,20 +137,20 @@ const Blog = () => {
                     </div>
 
                     <textarea
-                        ref={newContentRef}
-                        id="new-content"
-                        name="new-content"
-                        className="edit-content-textarea textarea"
-                        style={{height: textareaHeightContent}}
-                        onChange={() => handleTextareaChange(newContentRef)}
-                        defaultValue={activeBlog?.content}></textarea>
-                        <ContextMenu targetRef={newContentRef}>
-                            <Formatter textareaRef={newContentRef}/>
-                        </ContextMenu>
+                        ref={newBodyRef}
+                        id="new-body"
+                        name="new-body"
+                        className="edit-body-textarea textarea"
+                        style={{height: textareaHeightBody}}
+                        onChange={() => handleTextareaChange(newBodyRef)}
+                        defaultValue={activeBlog?.body}></textarea>
+                    <ContextMenu targetRef={newBodyRef}>
+                        <Formatter textareaRef={newBodyRef} />
+                    </ContextMenu>
 
                     <div>
                         {titleEmpty && <ErrorMessage>Title is empty</ErrorMessage>}
-                        {contentEmpty && <ErrorMessage>Content is empty</ErrorMessage>}
+                        {bodyEmpty && <ErrorMessage>Body is empty</ErrorMessage>}
                     </div>
 
                     <div className="edit-delete-container">
@@ -173,7 +170,7 @@ const Blog = () => {
                 <>
                     <h1 className="blog-title">{activeBlog?.title}</h1>
                     <p className="blog-date">{activeBlog?.date}</p>
-                    <pre className="column-of-text">{parseContent()}</pre>
+                    <pre className="column-of-text">{parseBlogBody()}</pre>
                     <div className="edit-delete-container">
                         <button
                             className="primary-button"
@@ -182,7 +179,6 @@ const Blog = () => {
                         </button>
                         <button
                             ref={deleteBlogRef}
-                            onClick={()=>console.log(deleteBlogRef)}
                             className="delete-button">
                             Delete
                         </button>

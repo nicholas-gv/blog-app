@@ -137,11 +137,11 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
   @extend .large-text;
 }
 
-.edit-content-textarea {
+.edit-body-textarea {
   font-size: 18px;
 }
 
-.update-content-form {
+.update-body-form {
   width: 33rem;
   margin-top: 20px;
   display: flex;
@@ -293,7 +293,7 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
     padding: 0px 30px;
   }
 
-  .update-content-form {
+  .update-body-form {
     width: 23rem;
   }
 
@@ -304,7 +304,7 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
     padding: 0px 20px;
   }
 
-  .update-content-form {
+  .update-body-form {
     width: 20rem;
   }
 
@@ -318,7 +318,7 @@ $default-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
     padding: 0px 5px;
   }
 
-  .update-content-form {
+  .update-body-form {
     width: 16rem;
   }
 }

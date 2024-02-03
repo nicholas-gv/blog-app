@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, useRef } from "react";
+import { useState, useEffect, ReactNode } from "react";
 
 interface ContextMenuProps<T extends HTMLElement> {
     targetRef: React.RefObject<T> | null;

@@ -3,12 +3,12 @@ import {RootState} from '../../app/store';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {loadBlogs} from '../../common/localStorage';
 import axios, {AxiosError} from 'axios';
-import { SerializedError } from '@reduxjs/toolkit';
+import {SerializedError} from '@reduxjs/toolkit';
 
 interface Blog {
     id: number;
     title: string;
-    content: string;
+    body: string;
     date: string;
     status: 'public' | 'private';
 }
@@ -56,9 +56,9 @@ export const blogSlice = createSlice({
         blogDelete: (state, action: PayloadAction<number>) => {
             state.blogs = state.blogs.filter((val) => val.id !== action.payload);
         },
-        blogUpdateBody: (state, action: PayloadAction<{id: number; content: string}>) => {
+        blogUpdateBody: (state, action: PayloadAction<{id: number; body: string}>) => {
             state.blogs = state.blogs.filter((val) =>
-                val.id === action.payload.id ? (val.content = action.payload.content) : val
+                val.id === action.payload.id ? (val.body = action.payload.body) : val
             );
         },
         blogRename: (state, action: PayloadAction<{id: number; title: string}>) => {

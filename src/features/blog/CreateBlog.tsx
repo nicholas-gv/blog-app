@@ -16,9 +16,9 @@ const CreateBlog = () => {
 
     // local state for UI only
     const [titleEmpty, setTitleEmpty] = useState(false);
-    const [contentEmpty, setContentEmpty] = useState(false);
+    const [bodyEmpty, setBodyEmpty] = useState(false);
     const titleRef = useRef<HTMLTextAreaElement>(null);
-    const contentRef = useRef<HTMLTextAreaElement>(null);
+    const bodyRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         if (status === 'loading') {
@@ -46,16 +46,16 @@ const CreateBlog = () => {
     const handleAddSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const blogTitle = titleRef.current ? titleRef.current.value : '';
-        const blogContent = contentRef.current ? contentRef.current.value : '';
+        const blogBody = bodyRef.current ? bodyRef.current.value : '';
 
         blogTitle.length === 0 ? setTitleEmpty(true) : setTitleEmpty(false);
-        blogContent.length === 0 ? setContentEmpty(true) : setContentEmpty(false);
+        blogBody.length === 0 ? setBodyEmpty(true) : setBodyEmpty(false);
 
-        if (blogTitle.length !== 0 && blogContent.length !== 0) {
+        if (blogTitle.length !== 0 && blogBody.length !== 0) {
             const id = calculateUniqueId();
             const [dateStr] = new Date(Date.now()).toISOString().split('T');
 
-            dispatch(blogAdd({id, title: blogTitle, content: blogContent, date: dateStr, status: 'public'}));
+            dispatch(blogAdd({id, title: blogTitle, body: blogBody, date: dateStr, status: 'public'}));
             event.target.reset();
             navigate('/');
         }
@@ -83,7 +83,7 @@ const CreateBlog = () => {
                 alt="back-to-the-main-page-icon"></input>
 
             <form
-                className="update-content-form"
+                className="update-body-form"
                 onSubmit={handleAddSubmit}>
                 <label
                     htmlFor="title"
@@ -96,7 +96,8 @@ const CreateBlog = () => {
                     name="title"
                     onChange={() => handleTextareaChange(titleRef)}
                     rows={1}
-                    className="edit-title-textarea textarea"/>
+                    className="edit-title-textarea textarea"
+                />
                 <div className="info-container margin-top">
                     <img
                         src={infoIcon}
@@ -105,23 +106,24 @@ const CreateBlog = () => {
                     <p className="hidden-hint">Select text and right click it to format</p>
                 </div>
                 <label
-                    htmlFor="content"
+                    htmlFor="body"
                     className="large-text">
-                    Content:
+                    Body:
                 </label>
                 <textarea
-                    ref={contentRef}
-                    id="content"
-                    name="content"
-                    onChange={() => handleTextareaChange(contentRef)}
+                    ref={bodyRef}
+                    id="body"
+                    name="body"
+                    onChange={() => handleTextareaChange(bodyRef)}
                     rows={5}
-                    className="edit-content-textarea textarea"/>
-                    <ContextMenu targetRef={contentRef}>
-                        <Formatter textareaRef={contentRef}/>
-                    </ContextMenu>
+                    className="edit-body-textarea textarea"
+                />
+                <ContextMenu targetRef={bodyRef}>
+                    <Formatter textareaRef={bodyRef} />
+                </ContextMenu>
                 <div>
                     {titleEmpty && <ErrorMessage>Title is empty</ErrorMessage>}
-                    {contentEmpty && <ErrorMessage>Content is empty</ErrorMessage>}
+                    {bodyEmpty && <ErrorMessage>Body is empty</ErrorMessage>}
                 </div>
                 <div className="edit-delete-container">
                     <button

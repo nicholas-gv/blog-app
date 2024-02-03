@@ -1,4 +1,4 @@
-import {setActiveBlog, selectBlogs, selectStatus, fetchBlogs, blogLoad} from './blogSlice';
+import {setActiveBlog, selectBlogs, fetchBlogs, blogLoad} from './blogSlice';
 import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
