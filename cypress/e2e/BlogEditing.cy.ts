@@ -3,7 +3,7 @@ describe('Editing a blog', () => {
     const initialUrl = "http://localhost:3000/"
 
     cy.visit(initialUrl)
-    cy.get('button').contains('Basic explanation').click();
+    cy.get('button.blog-list-button').first().click();
     cy.get('button').contains('Edit').click();
     cy.get('button').contains('Cancel').click();
     cy.get('button').contains('Edit').click();
@@ -14,5 +14,13 @@ describe('Editing a blog', () => {
     cy.get('pre.column-of-text')
     .children()
     .should('have.prop', 'tagName', 'B'); 
+
+    cy.get("button").contains("Delete").click()
+    cy.get("button").contains("No").click()
+    cy.get('.popup').should('not.exist');
+    cy.get("button").contains("Delete").click()
+    cy.get('.popup').should('exist');
+    cy.get("button").contains("Yes").click()
+    
   })
 })
