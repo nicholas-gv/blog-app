@@ -21,13 +21,13 @@ const ContextMenu = <T extends HTMLElement>(props: ContextMenuProps<T>) => {
                 props.targetRef.current.removeEventListener('contextmenu', handleClick);
             }
         };
-    }, [props.targetRef]);
+    }, [props]);
 
     const handleClick = (e: MouseEvent) => {
         e.preventDefault()
         setShowContextMenu(true);
-        setPosX(e.pageX);
-        setPosY(e.pageY);
+        setPosX(e.clientX);
+        setPosY(e.clientY);
     }
 
     const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
