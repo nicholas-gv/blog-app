@@ -1,3 +1,5 @@
+export {}
+
 describe('Creating a blog', () => {
   it('passes', () => {
     const initialUrl = "http://localhost:3000/"
